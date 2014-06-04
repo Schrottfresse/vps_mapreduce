@@ -47,7 +47,7 @@ public class CommonFriends implements Job {
 	@Override
 	public Mapper<?, ?> createMapper(final int p_id, final Reader<String> p_reader, final Writer<String> p_writer) {
 		// TODO: Aufgabe 5.2
-		return null;
+		return new CFMapper(p_id, p_reader, p_writer);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class CommonFriends implements Job {
 	@Override
 	public Reducer<?, ?> createReducer(final int p_id, final Reader<String>[] p_reader, final Writer<String> p_writer) {
 		// TODO: Aufgabe 5.3
-		return null;
+		return new CFReducer(p_id, p_reader, p_writer);
 	}
 
 	// Classes
