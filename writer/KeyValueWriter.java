@@ -3,6 +3,8 @@
  */
 package vps.mapreduce.writer;
 
+import vps.mapreduce.Configuration;
+import vps.mapreduce.util.Contract;
 import vps.mapreduce.util.KeyValuePair;
 
 /**
@@ -10,6 +12,9 @@ import vps.mapreduce.util.KeyValuePair;
  */
 public class KeyValueWriter implements Writer<KeyValuePair<String, String>> {
 
+	// Attributes
+	final private Writer<String> m_writer;
+	
 	// Constructors
 	/**
 	 * Creates an instance of KeyValueWriter
@@ -19,6 +24,9 @@ public class KeyValueWriter implements Writer<KeyValuePair<String, String>> {
 	 */
 	public KeyValueWriter(final Writer<String> p_writer) {
 		// TODO: Aufgabe 2.1
+		Contract.checkNotNull(p_writer, "writer is null");
+		
+		this.m_writer = p_writer;
 	}
 
 	// Methods
@@ -31,6 +39,9 @@ public class KeyValueWriter implements Writer<KeyValuePair<String, String>> {
 	@Override
 	public void write(final KeyValuePair<String, String> p_element) {
 		// TODO: Aufgabe 2.1
+		Contract.checkNotNull(p_element, "element is null");
+		
+		this.m_writer.write(p_element.getKey() + Configuration.KEY_VALUE_SEPARATOR + p_element.getValue());
 	}
 
 	/**
@@ -39,6 +50,7 @@ public class KeyValueWriter implements Writer<KeyValuePair<String, String>> {
 	@Override
 	public void close() {
 		// TODO: Aufgabe 2.1
+		this.m_writer.close();
 	}
 
 }
