@@ -17,7 +17,6 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 
 	// Attributes
 	private final Reader<KeyValuePair<KeyType, ValueType>> m_reader;
-	private final KeyType m_key;
 	private Iterator<ValueType> m_val_iter;
 	
 	// Constructors
@@ -27,13 +26,11 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 	 * @param p_reader
 	 *            the underlying reader to use
 	 */
-	public IterableValueReader(final Reader<KeyValuePair<KeyType, ValueType>> p_reader, KeyType p_key) {
+	public IterableValueReader(final Reader<KeyValuePair<KeyType, ValueType>> p_reader) {
 		// TODO: Aufgabe 1.2
 		Contract.checkNotNull(p_reader, "no reader given");
-		Contract.checkNotNull(p_key, "no key given");
 		
 		this.m_reader = p_reader;
-		this.m_key = p_key;
 	}
 
 	// Methods
@@ -46,21 +43,27 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 	public KeyValuePair<KeyType, Iterable<ValueType>> read() {
 		// TODO: Aufgabe 1.2
 		
-		LinkedList<ValueType> val = new LinkedList<ValueType>();
-		
+		LinkedList<ValueType> valList = new LinkedList<ValueType>();
 		KeyValuePair<KeyType, ValueType> readed = this.m_reader.read();
 		
-		while (readed != null) {
-			if (readed.getKey().equals(this.m_key)) {
-				val.add(readed.getValue());
-			}
-			
-			readed = this.m_reader.read();
+		if (readed == null) {
+			return null;
 		}
 		
-		this.m_val_iter = val.iterator();
+		KeyType key = readed.getKey();
 		
-		return new KeyValuePair<KeyType,Iterable<ValueType>>(this.m_key, val);
+		while (readed.getKey().equals(key)) {
+			valList.add(readed.getValue());
+			readed = this.m_reader.read();
+			
+			if (readed == null) {
+				break;
+			}
+		}
+		
+		this.m_val_iter = valList.iterator();
+		
+		return new KeyValuePair<KeyType,Iterable<ValueType>>(key, valList);
 	}
 
 	/**

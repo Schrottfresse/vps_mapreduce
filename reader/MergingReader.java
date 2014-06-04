@@ -49,21 +49,14 @@ public class MergingReader<Type extends Comparable<Type>> implements Reader<Type
 			return this.m_reader.get(0).read();
 		}
 		
-		System.out.print("m_reader.read() ");
-		
 		tmp = this.m_reader.get(0);
-		
-		System.out.print("0"+tmp + " ");
 		
 		for (int i = 1; i < this.m_reader.size(); i++) {
 			
 			if (tmp.compareTo(this.m_reader.get(i)) > 0) {
 				tmp = this.m_reader.get(i);
-				System.out.print(i + "" + tmp + " " + tmp.compareTo(this.m_reader.get(i)) + " ");
 			}
 		}
-		
-		System.out.println("");
 		
 		return tmp.read();
 	}

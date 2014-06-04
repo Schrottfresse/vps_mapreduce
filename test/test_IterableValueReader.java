@@ -26,7 +26,6 @@ public class test_IterableValueReader {
 						new FileInput("E:\\test\\example_wc.txt")
 					)
 				)
-				, "25"
 			);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
