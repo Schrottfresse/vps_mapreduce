@@ -41,12 +41,17 @@ public class MapReduce {
 		Mapper<String, String>[] mapper = (Mapper<String, String>[])Array.newInstance(Mapper.class, Configuration.MAPPER_COUNT);
 		Reducer<String, String>[] reducer = (Reducer<String, String>[])Array.newInstance(Reducer.class, Configuration.REDUCER_COUNT);
 		int threads = Configuration.THREAD_COUNT;
-		int lineCount = 0;
+		int mapper_count = Configuration.MAPPER_COUNT;
+		int line_count = 0;
 		try {
-			lineCount = Configuration.getLineCount(p_arguments[1]);
+			line_count = Configuration.getLineCount(p_arguments[1]);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+		
+		if (line_count < mapper_count) {
+			mapper_count = line_count;
 		}
 
 		Contract.checkNotNull(p_arguments, "Args is null");
@@ -63,24 +68,24 @@ public class MapReduce {
 			job = null;
 		}
 		
-		if (lineCount <= 0) {
+		if (line_count <= 0) {
 			System.out.println("Broken file");
 			System.exit(1);
 		}
 		
 		for (int i = 0; i < mapper.length; i++) {
 			Reader<String> tmpReader = null;
-			int linesToRead = lineCount/Configuration.MAPPER_COUNT;
+			int linesToRead = line_count/mapper_count;
 			
-			if (lineCount % Configuration.MAPPER_COUNT != 0) {
+			if (line_count % mapper_count != 0) {
 				if (i == mapper.length - 1) {
-					linesToRead += lineCount % Configuration.MAPPER_COUNT;
+					linesToRead += line_count % mapper_count;
 				}
 			}
 			
 			try {
 				tmpReader = Configuration.createMapperReader(p_arguments[1],
-						i*(lineCount/Configuration.MAPPER_COUNT),
+						i*(line_count/mapper_count),
 						linesToRead);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
