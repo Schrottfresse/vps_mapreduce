@@ -53,9 +53,13 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 		
 		KeyType key = this.lastRead.getKey();
 		
-		while (this.lastRead.getKey().equals(key)) {
+		System.out.println(key);
+		
+		while (this.lastRead.getKey().compareTo(key) == 0) {
 			valList.add(this.lastRead.getValue());
 			this.lastRead = this.m_reader.read();
+			
+			System.out.println(this.lastRead);
 			
 			if (this.lastRead == null) {
 				break;
@@ -63,6 +67,8 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 		}
 		
 		this.m_val_iter = valList.iterator();
+		
+		System.out.println(valList);
 		
 		return new KeyValuePair<KeyType,Iterable<ValueType>>(key, valList);
 	}
