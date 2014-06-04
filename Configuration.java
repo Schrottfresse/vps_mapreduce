@@ -97,7 +97,7 @@ public abstract class Configuration {
 		for (int i = 0;i < MAPPER_COUNT;i++) {
 			ret[i] = new InputReader(new FileInput(String.format(INTERMEDIATE_NAME_FORMAT, p_path, i, p_id)));
 		}
-
+		
 		return ret;
 	}
 
@@ -109,7 +109,7 @@ public abstract class Configuration {
 	 * @param p_id
 	 *            the reducer id
 	 * @throws IOException
-	 *             if the path coudl not be accessed
+	 *             if the path could not be accessed
 	 */
 	public static Writer<String> createReducerWriter(final String p_path, final int p_id) throws IOException {
 		return new OutputWriter(new FileOutput(String.format(Configuration.OUTPUT_NAME_FORMAT, p_path, p_id)));

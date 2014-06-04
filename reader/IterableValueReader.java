@@ -18,6 +18,7 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 	// Attributes
 	private final Reader<KeyValuePair<KeyType, ValueType>> m_reader;
 	private Iterator<ValueType> m_val_iter;
+	private KeyValuePair<KeyType, ValueType> lastRead = null;
 	
 	// Constructors
 	/**
@@ -31,6 +32,7 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 		Contract.checkNotNull(p_reader, "no reader given");
 		
 		this.m_reader = p_reader;
+		this.lastRead = this.m_reader.read();
 	}
 
 	// Methods
@@ -44,19 +46,18 @@ public class IterableValueReader<KeyType extends Comparable<KeyType>, ValueType>
 		// TODO: Aufgabe 1.2
 		
 		LinkedList<ValueType> valList = new LinkedList<ValueType>();
-		KeyValuePair<KeyType, ValueType> readed = this.m_reader.read();
 		
-		if (readed == null) {
+		if (this.lastRead == null) {
 			return null;
 		}
 		
-		KeyType key = readed.getKey();
+		KeyType key = this.lastRead.getKey();
 		
-		while (readed.getKey().equals(key)) {
-			valList.add(readed.getValue());
-			readed = this.m_reader.read();
+		while (this.lastRead.getKey().equals(key)) {
+			valList.add(this.lastRead.getValue());
+			this.lastRead = this.m_reader.read();
 			
-			if (readed == null) {
+			if (this.lastRead == null) {
 				break;
 			}
 		}

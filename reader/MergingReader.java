@@ -44,11 +44,11 @@ public class MergingReader<Type extends Comparable<Type>> implements Reader<Type
 	public Type read() {
 		// TODO: Aufgabe 1.3
 		BufferedReader tmp = null;
-		
+
 		if (this.m_reader.size() == 1) {
 			return this.m_reader.get(0).read();
 		}
-		
+
 		tmp = this.m_reader.get(0);
 		
 		for (int i = 1; i < this.m_reader.size(); i++) {
@@ -57,7 +57,7 @@ public class MergingReader<Type extends Comparable<Type>> implements Reader<Type
 				tmp = this.m_reader.get(i);
 			}
 		}
-		
+
 		return tmp.read();
 	}
 
