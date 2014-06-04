@@ -80,12 +80,22 @@ public abstract class Mapper<KeyType extends Comparable<KeyType>, ValueType> imp
 	public void execute() {
 		final long start;
 		final long end;
+		
+		KeyValuePair<KeyType, ValueType> p_pair = null;
 
 		System.out.println("Mapper(" + m_id + ") started");
 		start = System.currentTimeMillis();
 
 		// TODO: Aufgabe 3.1
-
+		while ((p_pair = this.m_reader.read()) != null) {
+			this.map(p_pair, this.m_context);
+		}
+		
+		this.m_context.flush(this.m_writer);		
+		
+		this.m_reader.close();
+		this.m_writer.close();
+		
 		end = System.currentTimeMillis();
 		System.out.println("Mapper(" + m_id + ") finished in " + (end - start) + " ms");
 	}
