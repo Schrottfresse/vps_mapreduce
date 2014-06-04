@@ -40,8 +40,7 @@ public class SplittingWriter<ValueType> implements Writer<ValueType> {
 	@Override
 	public void write(final ValueType p_element) {
 		// TODO: Aufgabe 2.2
-		
-		this.m_writer[(p_element.hashCode() % this.m_writer.length)].write(p_element);
+		this.m_writer[(Math.abs(p_element.hashCode()) % this.m_writer.length)].write(p_element);
 	}
 
 	/**
