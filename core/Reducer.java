@@ -113,7 +113,7 @@ public abstract class Reducer<KeyType extends Comparable<KeyType>, ValueType> im
 
 		// TODO: Aufgabe 3.2
 		while ((p_pair = this.m_reader.read()) != null) {
-//			System.out.println(p_pair);
+//			System.out.println(this.m_id + " " + p_pair);
 			this.reduce(p_pair, this.m_context);
 		}
 		

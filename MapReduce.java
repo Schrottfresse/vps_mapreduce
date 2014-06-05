@@ -37,6 +37,10 @@ public class MapReduce {
 	@SuppressWarnings("unchecked")
 	public static void main(final String[] p_arguments) {
 		// TODO: Aufgabe 4
+		Contract.checkNotNull(p_arguments, "Args is null");
+		Contract.check(p_arguments.length == 4, "Wrong number of arguments");
+		Contract.checkNotEmpty(p_arguments, "Args is empty");
+		
 		Job job = null;
 		Mapper<String, String>[] mapper = (Mapper<String, String>[])Array.newInstance(Mapper.class, Configuration.MAPPER_COUNT);
 		Reducer<String, String>[] reducer = (Reducer<String, String>[])Array.newInstance(Reducer.class, Configuration.REDUCER_COUNT);
@@ -53,10 +57,6 @@ public class MapReduce {
 		if (line_count < mapper_count) {
 			mapper_count = line_count;
 		}
-
-		Contract.checkNotNull(p_arguments, "Args is null");
-		Contract.check(p_arguments.length == 4, "Wrong number of arguments");
-		Contract.checkNotEmpty(p_arguments, "Args is empty");
 		
 		try {
 			job = (Job) Class.forName(Configuration.JOB_PACKAGE + p_arguments[0])
@@ -123,7 +123,7 @@ public class MapReduce {
 			
 			reducer[i] = (Reducer<String, String>) job.createReducer(i, tmpReader, tmpWriter);
 		}
-		
+//		System.out.println("ab hier");
 		Executor.execute(reducer, threads);
 	}
 
