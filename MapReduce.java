@@ -3,7 +3,6 @@
  */
 package vps.mapreduce;
 
-import java.io.IOException;
 import java.lang.reflect.Array;
 
 import vps.mapreduce.core.Job;
@@ -49,9 +48,12 @@ public class MapReduce {
 		int line_count = 0;
 		try {
 			line_count = Configuration.getLineCount(p_arguments[1]);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			if (line_count <= 0) {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			System.out.println("File broken or empty");
+			System.exit(1);
 		}
 		
 		if (line_count < mapper_count) {
@@ -62,14 +64,11 @@ public class MapReduce {
 			job = (Job) Class.forName(Configuration.JOB_PACKAGE + p_arguments[0])
 					.getConstructor((Class<?>[]) null)
 					.newInstance((Object[]) null);
+			if (job == null) {
+				throw new Exception();
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			job = null;
-		}
-		
-		if (line_count <= 0) {
-			System.out.println("Broken file");
+			System.out.println("Wrong job name");
 			System.exit(1);
 		}
 		
@@ -87,17 +86,23 @@ public class MapReduce {
 				tmpReader = Configuration.createMapperReader(p_arguments[1],
 						i*(line_count/mapper_count),
 						linesToRead);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (tmpReader == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				System.out.println("Cannot create mapper reader");
+				System.exit(1);
 			}
 			
 			Writer<String> tmpWriter = null;
 			try {
 				tmpWriter = Configuration.createMapperWriter(p_arguments[2], i);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (tmpWriter == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				System.out.println("Cannot create mapper writer");
+				System.exit(1);
 			}
 			
 			mapper[i] = (Mapper<String, String>) job.createMapper(i, tmpReader, tmpWriter);
@@ -108,17 +113,23 @@ public class MapReduce {
 			Reader<String>[] tmpReader = null;
 			try {
 				tmpReader = Configuration.createReducerReader(p_arguments[2], i);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (tmpReader == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				System.out.println("Cannot create reducer reader");
+				System.exit(1);
 			}
 			
 			Writer<String> tmpWriter = null;
 			try {
 				tmpWriter = Configuration.createReducerWriter(p_arguments[3], i);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (tmpWriter == null) {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				System.out.println("Cannot create reducer writer");
+				System.exit(1);
 			}
 			
 			reducer[i] = (Reducer<String, String>) job.createReducer(i, tmpReader, tmpWriter);
