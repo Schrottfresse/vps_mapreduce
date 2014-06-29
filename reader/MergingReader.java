@@ -45,12 +45,15 @@ public class MergingReader<Type extends Comparable<Type>> implements Reader<Type
 		// TODO: Aufgabe 1.3
 		BufferedReader tmp = null;
 
+		// If only one reader is given, return read line directly
 		if (this.m_reader.size() == 1) {
 			return this.m_reader.get(0).read();
 		}
 
+		// Else get reader
 		tmp = this.m_reader.get(0);
 		
+		// and look for lexicographically next reader
 		for (int i = 1; i < this.m_reader.size(); i++) {
 			
 			if (tmp.compareTo(this.m_reader.get(i)) > 0) {

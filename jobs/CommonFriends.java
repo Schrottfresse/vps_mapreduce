@@ -402,8 +402,6 @@ public class CommonFriends implements Job {
 		
 		@Override
 		public KeyValuePair<CFSet, CFSet> read() {
-			// TODO Auto-generated method stub
-			
 			final KeyValuePair<String, String> readed = this.m_reader.read();
 			
 			if (readed == null) {
@@ -420,7 +418,6 @@ public class CommonFriends implements Job {
 
 		@Override
 		public void close() {
-			// TODO Auto-generated method stub
 			this.m_reader.close();
 		}
 		
@@ -438,7 +435,6 @@ public class CommonFriends implements Job {
 		
 		@Override
 		public void write(KeyValuePair<CFSet, CFSet> p_element) {
-			// TODO Auto-generated method stub
 			this.m_writer.write(CFSet.parse(p_element.getKey()) +
 				Configuration.KEY_VALUE_SEPARATOR +
 				CFSet.parse(p_element.getValue())
@@ -447,7 +443,6 @@ public class CommonFriends implements Job {
 		
 		@Override
 		public void close() {
-			// TODO Auto-generated method stub
 			this.m_writer.close();
 		}
 		

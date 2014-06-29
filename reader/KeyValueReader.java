@@ -32,7 +32,7 @@ public class KeyValueReader implements Reader<KeyValuePair<String, String>> {
 
 	// Methods
 	/**
-	 * Reads a KeyValuePair
+	 * Reads a KeyValuePair. Returns a KeyValuePair, if a line was read, else it returns null
 	 * 
 	 * @return the KeyValuePair
 	 */
@@ -54,11 +54,14 @@ public class KeyValueReader implements Reader<KeyValuePair<String, String>> {
 				key = line.substring(0, sepPos);
 				val = line.substring(sepPos + 1);
 				
+				// Return normal KeyValuePair
 				ret = new KeyValuePair<String, String>(key, val);
 			} else {
+				//Return LineNumber/Value-Pair
 				ret = new KeyValuePair<String, String>("" + lineNumber, line);
 			}
 		} else {
+			//Return null
 			ret = null;
 		}
 		
