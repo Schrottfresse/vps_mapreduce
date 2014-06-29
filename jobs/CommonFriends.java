@@ -18,7 +18,6 @@ import vps.mapreduce.reader.KeyValueReader;
 import vps.mapreduce.reader.Reader;
 import vps.mapreduce.util.Contract;
 import vps.mapreduce.util.KeyValuePair;
-import vps.mapreduce.writer.KeyValueWriter;
 import vps.mapreduce.writer.Writer;
 
 /**
@@ -130,6 +129,7 @@ public class CommonFriends implements Job {
 		 * @param p_elements
 		 *            the elements to add
 		 */
+		@SuppressWarnings("unused")
 		public void add(final String[] p_elements) {
 			for (String element : p_elements) {
 				m_set.add(element);
@@ -170,6 +170,7 @@ public class CommonFriends implements Job {
 		 *            the String
 		 * @return a CFSet
 		 */
+		@SuppressWarnings("unused")
 		public static CFSet parse(final String p_string) {
 			CFSet ret;
 			String[] elements;

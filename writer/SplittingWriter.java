@@ -3,6 +3,7 @@
  */
 package vps.mapreduce.writer;
 
+import vps.mapreduce.Configuration;
 import vps.mapreduce.util.Contract;
 
 
@@ -40,7 +41,11 @@ public class SplittingWriter<ValueType> implements Writer<ValueType> {
 	@Override
 	public void write(final ValueType p_element) {
 		// TODO: Aufgabe 2.2
-		this.m_writer[(Math.abs(p_element.hashCode()) % this.m_writer.length)].write(p_element);
+		// Berechne den Hash des Strings
+		int hash = ((String) p_element).split(Configuration.KEY_VALUE_SEPARATOR)[0].hashCode();
+		
+		// Schreibe das Element mit Writer (hash modulo Anzahl Writer) 
+		this.m_writer[Math.abs(hash % this.m_writer.length)].write(p_element);
 	}
 
 	/**
