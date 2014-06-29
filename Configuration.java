@@ -19,8 +19,8 @@ import vps.mapreduce.writer.Writer;
 public abstract class Configuration {
 
 	// Constants
-	public static final int MAPPER_COUNT = 5;
-	public static final int REDUCER_COUNT = 1;
+	public static final int MAPPER_COUNT = 3;
+	public static final int REDUCER_COUNT = 2;
 	public static final int THREAD_COUNT = Runtime.getRuntime().availableProcessors();
 
 	public static final String JOB_PACKAGE = "vps.mapreduce.jobs.";
