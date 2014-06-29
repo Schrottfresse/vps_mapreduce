@@ -50,9 +50,9 @@ public class MapReduce {
 		
 		try {
 			line_count = Configuration.getLineCount(p_arguments[1]);
-			Contract.check(line_count <= 0, "");
+			Contract.check(line_count > 0, "");
 		} catch (Exception e) {
-			System.out.println("File broken or empty");
+			System.out.println("Input file broken or empty");
 			System.exit(1);
 		}
 		
@@ -66,7 +66,7 @@ public class MapReduce {
 			job = (Job) Class.forName(Configuration.JOB_PACKAGE + p_arguments[0])
 					.getConstructor((Class<?>[]) null)
 					.newInstance((Object[]) null);
-			Contract.check(job == null, "");
+			Contract.check(job != null, "");
 		} catch (Exception e) {
 			System.out.println("Wrong job name");
 			System.exit(1);
@@ -87,7 +87,7 @@ public class MapReduce {
 				tmpReader = Configuration.createMapperReader(p_arguments[1],
 						i*(line_count/mapper_count),
 						linesToRead);
-				Contract.check(tmpReader == null, "");
+				Contract.check(tmpReader != null, "");
 			} catch (Exception e) {
 				System.out.println("Cannot create mapper reader");
 				System.exit(1);
@@ -96,7 +96,7 @@ public class MapReduce {
 			Writer<String> tmpWriter = null;
 			try {
 				tmpWriter = Configuration.createMapperWriter(p_arguments[2], i);
-				Contract.check(tmpWriter == null, "");
+				Contract.check(tmpWriter != null, "");
 			} catch (Exception e) {
 				System.out.println("Cannot create mapper writer");
 				System.exit(1);
@@ -110,7 +110,7 @@ public class MapReduce {
 			Reader<String>[] tmpReader = null;
 			try {
 				tmpReader = Configuration.createReducerReader(p_arguments[2], i);
-				Contract.check(tmpReader == null, "");
+				Contract.check(tmpReader != null, "");
 			} catch (Exception e) {
 				System.out.println("Cannot create reducer reader");
 				System.exit(1);
@@ -119,7 +119,7 @@ public class MapReduce {
 			Writer<String> tmpWriter = null;
 			try {
 				tmpWriter = Configuration.createReducerWriter(p_arguments[3], i);
-				Contract.check(tmpWriter == null, "");
+				Contract.check(tmpWriter != null, "");
 			} catch (Exception e) {
 				System.out.println("Cannot create reducer writer");
 				System.exit(1);
